@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a4fd92a2-0380-4e50-bd23-50f774ca19a6" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/README.txt" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/git add README.md" afterPath="$PROJECT_DIR$/README.md" />
+      <change beforePath="$PROJECT_DIR$/.ftpconfig" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/.ftpignore" afterPath="" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -189,12 +188,12 @@
       <workItem from="1517189343860" duration="476000" />
       <workItem from="1517189826103" duration="5598000" />
       <workItem from="1517239148945" duration="5201000" />
-      <workItem from="1517277241112" duration="4997000" />
+      <workItem from="1517277241112" duration="5112000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46197000" />
+    <option name="totallyTimeSpent" value="46312000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="30" width="1366" height="738" extended-state="6" />
