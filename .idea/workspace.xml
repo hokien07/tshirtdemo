@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a4fd92a2-0380-4e50-bd23-50f774ca19a6" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.ftpconfig" afterPath="" />
-      <change beforePath="$PROJECT_DIR$/.ftpignore" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/README.md" afterPath="$PROJECT_DIR$/README.md" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -50,8 +49,8 @@
         <entry file="file://$PROJECT_DIR$/README.md">
           <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
             <state split_layout="SPLIT">
-              <first_editor relative-caret-position="253">
-                <caret line="11" column="34" lean-forward="true" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+              <first_editor relative-caret-position="92">
+                <caret line="4" column="25" lean-forward="false" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
                 <folding />
               </first_editor>
               <second_editor />
@@ -90,6 +89,7 @@
         <option value="&lt;2d9b8206-4d99-4f94-a204-edf0e9b99080&gt;/wp-content/themes/storefront/header.php" />
         <option value="&lt;2d9b8206-4d99-4f94-a204-edf0e9b99080&gt;/wp-content/themes/storefront/hk_functions.php" />
         <option value="$PROJECT_DIR$/git add README.md" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -188,12 +188,12 @@
       <workItem from="1517189343860" duration="476000" />
       <workItem from="1517189826103" duration="5598000" />
       <workItem from="1517239148945" duration="5201000" />
-      <workItem from="1517277241112" duration="5112000" />
+      <workItem from="1517277241112" duration="5178000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46312000" />
+    <option name="totallyTimeSpent" value="46378000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="30" width="1366" height="738" extended-state="6" />
@@ -300,8 +300,8 @@
     <entry file="file://$PROJECT_DIR$/README.md">
       <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
         <state split_layout="SPLIT">
-          <first_editor relative-caret-position="253">
-            <caret line="11" column="34" lean-forward="true" selection-start-line="11" selection-start-column="34" selection-end-line="11" selection-end-column="34" />
+          <first_editor relative-caret-position="92">
+            <caret line="4" column="25" lean-forward="false" selection-start-line="4" selection-start-column="25" selection-end-line="4" selection-end-column="25" />
             <folding />
           </first_editor>
           <second_editor />
