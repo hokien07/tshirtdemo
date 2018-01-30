@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a4fd92a2-0380-4e50-bd23-50f774ca19a6" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/deployment.xml" afterPath="$PROJECT_DIR$/.idea/deployment.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-    </list>
+    <list default="true" id="a4fd92a2-0380-4e50-bd23-50f774ca19a6" name="Default" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,8 +39,8 @@
       <file leaf-file-name="hk_custom_search.php" pinned="true" current-in-tab="true">
         <entry file="remoteDeploymentFS://&lt;2d9b8206-4d99-4f94-a204-edf0e9b99080&gt;/wp-content/themes/storefront/hk_custom_search.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="73" column="18" lean-forward="true" selection-start-line="73" selection-start-column="18" selection-end-line="73" selection-end-column="18" />
+            <state relative-caret-position="987">
+              <caret line="117" column="1" lean-forward="false" selection-start-line="117" selection-start-column="1" selection-end-line="117" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -187,12 +184,12 @@
       <workItem from="1517239148945" duration="5201000" />
       <workItem from="1517277241112" duration="5333000" />
       <workItem from="1517298948999" duration="1825000" />
-      <workItem from="1517327897972" duration="1463000" />
+      <workItem from="1517327897972" duration="1900000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="49821000" />
+    <option name="totallyTimeSpent" value="50258000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="30" width="1366" height="738" extended-state="6" />
