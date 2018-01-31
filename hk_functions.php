@@ -23,7 +23,7 @@ function add_name_on_tshirt_field()
                             $style = $attribute['value'];
                             $mang_style = explode('| ', $style);
                             foreach ($mang_style as $value) {
-                                echo '<option value="'. $value.'">' . $value . '</option>';
+                                echo '<option value="' . $value . '">' . $value . '</option>';
                             }
                             ?>
                         </select>
@@ -47,7 +47,7 @@ function add_name_on_tshirt_field()
                             $color = $attribute['value'];
                             $mang_color = explode('| ', $color);
                             foreach ($mang_color as $key => $value) {
-                                echo '<option value="'. $value .'">' . $value . '</option>';
+                                echo '<option value="' . $value . '">' . $value . '</option>';
                             }
                             ?>
                         </select>
@@ -73,7 +73,7 @@ function add_name_on_tshirt_field()
                             $size = $attribute['value'];
                             $mang_size = explode('| ', $size);
                             foreach ($mang_size as $value) {
-                                echo '<option value="'. $value .'">' . $value . '</option>';
+                                echo '<option value="' . $value . '">' . $value . '</option>';
                             }
                             ?>
                         </select>
@@ -93,7 +93,7 @@ function add_name_on_tshirt_field()
         </tr>
         </tbody>
     </table>
-    <div  class="change_price"></div>
+    <div class="change_price"></div>
     <div id="no-options"></div>
 <?php }
 
@@ -110,7 +110,8 @@ function wc_remove_link_on_thumbnails($img)
     $name = $content_data['name'];
 
 //    ma hoa sku
-    function encrypt($sData, $secretKey) {
+    function encrypt($sData, $secretKey)
+    {
         $sResult = '';
         for ($i = 0; $i < strlen($sData); $i++) {
             $sChar = substr($sData, $i, 1);
@@ -121,11 +122,13 @@ function wc_remove_link_on_thumbnails($img)
         return encode_base64($sResult);
     }
 
-    function encode_base64($sData) {
+    function encode_base64($sData)
+    {
         $sBase64 = base64_encode($sData);
         return str_replace('=', '', strtr($sBase64, '+/', '-_'));
     }
-    foreach ($variations as &$value){
+
+    foreach ($variations as &$value) {
         $value['sku'] = encrypt($value['sku'], 'hk_test_key');
     }
 
@@ -140,9 +143,6 @@ function wc_remove_link_on_thumbnails($img)
             var sku = '';
             var src = '<?php echo $img; ?>';
             var variations = <?php echo json_encode($variations) ?>;
-            console.log(variations);
-
-
             //get default = variations[0];
             var default_price = '';
             var default_name = '';
@@ -156,7 +156,7 @@ function wc_remove_link_on_thumbnails($img)
             $('.change_price').html('$' + variations[0].regular_price);
             $('.wp-post-image').attr('src', variations[0].description);
             $('#input_price').val(variations[0].regular_price);
-            $('#input_image').val(variations[0].description );
+            $('#input_image').val(variations[0].description);
             $('#sku').val(variations[0].sku);
 
 
@@ -166,8 +166,12 @@ function wc_remove_link_on_thumbnails($img)
             for (var i = 0; i < variations.length; i++) {
                 price_total.push(variations[i].regular_price);
             }
-            var max = Math.max(...price_total);
-            var min = Math.min(...price_total);
+            var max = Math.max(...price_total
+        )
+            ;
+            var min = Math.min(...price_total
+        )
+            ;
             var price = min.toFixed(2);
 
             $('#pattern').change(function () {
@@ -177,7 +181,6 @@ function wc_remove_link_on_thumbnails($img)
 
                 var name = style + '/' + color + '/' + size;
                 var name_dao = size + '/' + color + '/' + style;
-
 
 
                 if (typeof style == 'undefined') {
@@ -204,12 +207,12 @@ function wc_remove_link_on_thumbnails($img)
                         disabled = false;
                     }
                 }
-                if (disabled == true){
+                if (disabled == true) {
                     $('.single_add_to_cart_button').prop('disabled', true);
                     $('#no-options').html('<p class="wc-no-matching-variations woocommerce-info">Sorry, no products matched your selection. Please choose a different combination.</p>');
                     $('.change_price').html('');
                 }
-                else{
+                else {
                     $('.single_add_to_cart_button').prop('disabled', false);
                     $('#no-options').html('');
                     $('.change_price').html('$' + price);
@@ -258,12 +261,12 @@ function wc_remove_link_on_thumbnails($img)
                         disabled = false;
                     }
                 }
-                if (disabled == true){
+                if (disabled == true) {
                     $('.single_add_to_cart_button').prop('disabled', true);
                     $('#no-options').html('<p class="wc-no-matching-variations woocommerce-info">Sorry, no products matched your selection. Please choose a different combination.</p>');
                     $('.change_price').html('');
                 }
-                else{
+                else {
                     $('.single_add_to_cart_button').prop('disabled', false);
                     $('#no-options').html('');
                     $('.change_price').html('$' + price);
@@ -310,12 +313,12 @@ function wc_remove_link_on_thumbnails($img)
                         disabled = false;
                     }
                 }
-                if (disabled == true){
+                if (disabled == true) {
                     $('.single_add_to_cart_button').prop('disabled', true);
                     $('#no-options').html('<p class="wc-no-matching-variations woocommerce-info">Sorry, no products matched your selection. Please choose a different combination.</p>');
                     $('.change_price').html('');
                 }
-                else{
+                else {
                     $('.single_add_to_cart_button').prop('disabled', false);
                     $('#no-options').html('');
                     $('.change_price').html('$' + price);
@@ -332,20 +335,20 @@ function wc_remove_link_on_thumbnails($img)
             });
 
             //reset option.
-            $('#reset_option').css('cursor', 'pointer').click(function() {
-                $('#size').prop('selectedIndex',0);
-                $('#pattern').prop('selectedIndex',0);
-                $('#color').prop('selectedIndex',0);
+            $('#reset_option').css('cursor', 'pointer').click(function () {
+                $('#size').prop('selectedIndex', 0);
+                $('#pattern').prop('selectedIndex', 0);
+                $('#color').prop('selectedIndex', 0);
                 $('.single_add_to_cart_button').prop('disabled', false);
             });
         });
     </script>
     <?php
 
-    $html = '<div data-thumb="'.$img.'" class="woocommerce-product-gallery__image">';
-    $html .= '<a href="'.$img.'">';
-    $html .= '<img width="800" height="1200" src="'.$img.'" data-large_image_width="980" data-large_image_height="980" />';
-    $html .=  '</a></div>';
+    $html = '<div data-thumb="' . $img . '" class="woocommerce-product-gallery__image">';
+    $html .= '<a href="' . $img . '">';
+    $html .= '<img width="800" height="1200" src="' . $img . '" data-large_image_width="980" data-large_image_height="980" />';
+    $html .= '</a></div>';
     return $html;
 }
 
@@ -392,7 +395,7 @@ function sv_change_product_price_display($price)
     $max = max($price_total);
     $price = '$' . $min . '-$' . $max;
     if ($min == $max) {
-        $price = '$'.$min;
+        $price = '$' . $min;
     }
     return $price;
 }
@@ -448,7 +451,8 @@ function render_meta_on_cart_and_checkout($cart_data, $cart_item = null)
 {
 
     //decode sku.
-    function decrypt($sData, $secretKey) {
+    function decrypt($sData, $secretKey)
+    {
         $sResult = '';
         $sData = decode_base64($sData);
         for ($i = 0; $i < strlen($sData); $i++) {
@@ -460,7 +464,8 @@ function render_meta_on_cart_and_checkout($cart_data, $cart_item = null)
         return $sResult;
     }
 
-    function decode_base64($sData) {
+    function decode_base64($sData)
+    {
         $sBase64 = strtr($sData, '-_', '+/');
         return base64_decode($sBase64 . '==');
     }
@@ -493,8 +498,10 @@ function render_meta_on_cart_and_checkout($cart_data, $cart_item = null)
 add_filter('woocommerce_get_item_data', 'render_meta_on_cart_and_checkout', 10, 2);
 
 
-function tshirt_order_meta_handler( $item_id, $values, $cart_item_key ) {
-    function decrypt($sData, $secretKey) {
+function tshirt_order_meta_handler($item_id, $values, $cart_item_key)
+{
+    function decrypt($sData, $secretKey)
+    {
         $sResult = '';
         $sData = decode_base64($sData);
         for ($i = 0; $i < strlen($sData); $i++) {
@@ -506,30 +513,32 @@ function tshirt_order_meta_handler( $item_id, $values, $cart_item_key ) {
         return $sResult;
     }
 
-    function decode_base64($sData) {
+    function decode_base64($sData)
+    {
         $sBase64 = strtr($sData, '-_', '+/');
         return base64_decode($sBase64 . '==');
     }
-    
-    if( isset( $values['sku'] ) ) {
-        $values['sku']  = decrypt($values['sku'] , 'hk_test_key');
-        wc_add_order_item_meta( $item_id, "sku", $values['sku'] );
+
+    if (isset($values['sku'])) {
+        $values['sku'] = decrypt($values['sku'], 'hk_test_key');
+        wc_add_order_item_meta($item_id, "sku", $values['sku']);
     }
-    if( isset( $values['attribute_pattern'] ) ) {
-        wc_add_order_item_meta( $item_id, "style", $values['attribute_pattern'] );
+    if (isset($values['attribute_pattern'])) {
+        wc_add_order_item_meta($item_id, "style", $values['attribute_pattern']);
     }
-    if( isset( $values['attribute_color'] ) ) {
-        wc_add_order_item_meta( $item_id, "color", $values['attribute_color'] );
+    if (isset($values['attribute_color'])) {
+        wc_add_order_item_meta($item_id, "color", $values['attribute_color']);
     }
-    if( isset( $values['attribute_size'] ) ) {
-        wc_add_order_item_meta( $item_id, "size", $values['attribute_size'] );
+    if (isset($values['attribute_size'])) {
+        wc_add_order_item_meta($item_id, "size", $values['attribute_size']);
     }
-    if(isset($values['image_change'])) {
+    if (isset($values['image_change'])) {
         $product_get_image = '<img src="' . $values['image_change'] . '">';
-        apply_filters( 'woocommerce_admin_order_item_thumbnail', $product_get_image, $item_id, $item_id );
+        apply_filters('woocommerce_admin_order_item_thumbnail', $product_get_image, $item_id, $item_id);
     }
 }
-add_action( 'woocommerce_add_order_item_meta', 'tshirt_order_meta_handler', 1, 3 );
+
+add_action('woocommerce_add_order_item_meta', 'tshirt_order_meta_handler', 1, 3);
 
 //change product picture
 function filter_woocommerce_cart_item_thumbnail($product_get_image, $cart_item, $cart_item_key)
