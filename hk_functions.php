@@ -1,4 +1,60 @@
 <?php
+function encrypt($sData, $secretKey)
+    {
+        $sResult = '';
+        for ($i = 0; $i < strlen($sData); $i++) {
+            $sChar = substr($sData, $i, 1);
+            $sKeyChar = substr($secretKey, ($i % strlen($secretKey)) - 1, 1);
+            $sChar = chr(ord($sChar) + ord($sKeyChar));
+            $sResult .= $sChar;
+        }
+        return encode_base64($sResult);
+    }
+
+    function encode_base64($sData)
+    {
+        $sBase64 = base64_encode($sData);
+        return str_replace('=', '', strtr($sBase64, '+/', '-_'));
+    }
+
+
+function giua($a, $b, $c) {
+	    $a = explode($a, $c);
+	    $b = explode($b, $a[1]);
+	    return $b[0];
+	}
+function s3_file_name($url)
+  {
+      $path_name = giua('/files/', '/products/', $url);
+      
+      $fileParts = pathinfo($url);
+      //$filename = basename($url);
+      $filename = $fileParts['filename'];
+      $final = str_replace('/', '_', $path_name).'_'.$filename;
+
+      return $final;
+  }
+  	
+ //decode sku.
+function decrypt($sData, $secretKey)
+{
+    $sResult = '';
+    $sData = decode_base64($sData);
+    for ($i = 0; $i < strlen($sData); $i++) {
+        $sChar = substr($sData, $i, 1);
+        $sKeyChar = substr($secretKey, ($i % strlen($secretKey)) - 1, 1);
+        $sChar = chr(ord($sChar) - ord($sKeyChar));
+        $sResult .= $sChar;
+    }
+    return $sResult;
+}
+
+function decode_base64($sData)
+{
+    $sBase64 = strtr($sData, '-_', '+/');
+    return base64_decode($sBase64 . '==');
+}
+
 function add_name_on_tshirt_field()
 {
     $product_json = get_post_meta(get_the_ID(), 'product_json', true);
@@ -102,34 +158,35 @@ add_action('woocommerce_before_add_to_cart_button', 'add_name_on_tshirt_field');
 //override single product image brand.
 add_filter('woocommerce_single_product_image_thumbnail_html', 'wc_remove_link_on_thumbnails');
 function wc_remove_link_on_thumbnails($img)
-{
+{	
+	
+	  
+	$s3_done = get_post_meta(get_the_ID(), 's3_done', true);
+	
     $product_json = get_post_meta(get_the_ID(), 'product_json', true);
     $content_data = json_decode($product_json, true);
-    $img = $content_data['image'];
+    
+    if ($s3_done == 'done') {
+	        $img = 'https://s3.amazonaws.com/dtshops/onmytee/'.s3_file_name($content_data['image']).'.jpg';// strtok($value['image'], '?');
+    } else {
+        $img = strtok($content_data['image'], '?');
+    }
+    
+    
     $variations = $content_data['variations'];
     $name = $content_data['name'];
 
 //    ma hoa sku
-    function encrypt($sData, $secretKey)
-    {
-        $sResult = '';
-        for ($i = 0; $i < strlen($sData); $i++) {
-            $sChar = substr($sData, $i, 1);
-            $sKeyChar = substr($secretKey, ($i % strlen($secretKey)) - 1, 1);
-            $sChar = chr(ord($sChar) + ord($sKeyChar));
-            $sResult .= $sChar;
-        }
-        return encode_base64($sResult);
-    }
-
-    function encode_base64($sData)
-    {
-        $sBase64 = base64_encode($sData);
-        return str_replace('=', '', strtr($sBase64, '+/', '-_'));
-    }
-
+    
+	
+	
     foreach ($variations as &$value) {
         $value['sku'] = encrypt($value['sku'], 'hk_test_key');
+        if ($s3_done == 'done') {
+	        $value['image'] = 'https://s3.amazonaws.com/dtshops/onmytee/'.s3_file_name($value['image']).'.jpg';// strtok($value['image'], '?');
+        } else {
+        	$value['image'] = strtok($value['image'], '?');
+        }
     }
 
     ?>
@@ -147,7 +204,9 @@ function wc_remove_link_on_thumbnails($img)
             var default_price = '';
             var default_name = '';
             var default_name_dao = '';
+            console.log(variations[0]);
             var default_src = variations[0].description;
+
             $('#input_price').val(default_price);
             default_name_dao = default_name_dao.replace(/\s/g, '');
             default_name = default_name.replace(/\s/g, '');
@@ -375,7 +434,13 @@ function custom_fix_thumbnail()
     {
         $product_json = get_post_meta(get_the_ID(), 'product_json', true);
         $content_data = json_decode($product_json, true);
-        $src = $content_data['image'];
+        $s3_done = get_post_meta(get_the_ID(), 's3_done', true);
+        if ($s3_done == 'done') {
+	        $src = 'https://s3.amazonaws.com/dtshops/onmytee/'.s3_file_name($content_data['image']).'.jpg';// strtok($value['image'], '?');
+	    } else {
+	        $src = strtok($content_data['image'], '?');
+	    }
+        //$src = $content_data['image'];
         return $src;
     }
 }
@@ -393,7 +458,7 @@ function sv_change_product_price_display($price)
     }
     $min = min($price_total);
     $max = max($price_total);
-    $price = '$' . $min . '-$' . $max;
+    $price = '$' . $min . ' - $' . $max;
     if ($min == $max) {
         $price = '$' . $min;
     }
@@ -450,26 +515,7 @@ add_action('woocommerce_add_cart_item_data', 'save_options_on_tshirt_field', 10,
 function render_meta_on_cart_and_checkout($cart_data, $cart_item = null)
 {
 
-    //decode sku.
-    function decrypt($sData, $secretKey)
-    {
-        $sResult = '';
-        $sData = decode_base64($sData);
-        for ($i = 0; $i < strlen($sData); $i++) {
-            $sChar = substr($sData, $i, 1);
-            $sKeyChar = substr($secretKey, ($i % strlen($secretKey)) - 1, 1);
-            $sChar = chr(ord($sChar) - ord($sKeyChar));
-            $sResult .= $sChar;
-        }
-        return $sResult;
-    }
-
-    function decode_base64($sData)
-    {
-        $sBase64 = strtr($sData, '-_', '+/');
-        return base64_decode($sBase64 . '==');
-    }
-
+   
 
     $custom_items = array();
     /* Woo 2.4.2 updates */
@@ -477,7 +523,8 @@ function render_meta_on_cart_and_checkout($cart_data, $cart_item = null)
         $custom_items = $cart_data;
     }
     if (isset($cart_item['sku'])) {
-        $cart_item['sku'] = decrypt($cart_item['sku'], 'hk_test_key');
+        //$cart_item['sku'] = decrypt($cart_item['sku'], 'hk_test_key');
+        $cart_item['sku'] = $cart_item['sku'];
         $custom_items[] = array("name" => 'sku', "value" => $cart_item['sku']);
     }
     if (isset($cart_item['attribute_pattern'])) {
@@ -500,24 +547,7 @@ add_filter('woocommerce_get_item_data', 'render_meta_on_cart_and_checkout', 10, 
 
 function tshirt_order_meta_handler($item_id, $values, $cart_item_key)
 {
-    function decrypt($sData, $secretKey)
-    {
-        $sResult = '';
-        $sData = decode_base64($sData);
-        for ($i = 0; $i < strlen($sData); $i++) {
-            $sChar = substr($sData, $i, 1);
-            $sKeyChar = substr($secretKey, ($i % strlen($secretKey)) - 1, 1);
-            $sChar = chr(ord($sChar) - ord($sKeyChar));
-            $sResult .= $sChar;
-        }
-        return $sResult;
-    }
-
-    function decode_base64($sData)
-    {
-        $sBase64 = strtr($sData, '-_', '+/');
-        return base64_decode($sBase64 . '==');
-    }
+    
 
     if (isset($values['sku'])) {
         $values['sku'] = decrypt($values['sku'], 'hk_test_key');
@@ -533,7 +563,7 @@ function tshirt_order_meta_handler($item_id, $values, $cart_item_key)
         wc_add_order_item_meta($item_id, "size", $values['attribute_size']);
     }
     if (isset($values['image_change'])) {
-        $product_get_image = '<img src="' . $values['image_change'] . '">';
+        $product_get_image = '<img alt="cart img" src="' . $values['image_change'] . '">';
         apply_filters('woocommerce_admin_order_item_thumbnail', $product_get_image, $item_id, $item_id);
     }
 }
@@ -544,7 +574,14 @@ add_action('woocommerce_add_order_item_meta', 'tshirt_order_meta_handler', 1, 3)
 function filter_woocommerce_cart_item_thumbnail($product_get_image, $cart_item, $cart_item_key)
 {
     if (isset($cart_item['image_change'])) {
-        $product_get_image = '<img src="' . $cart_item['image_change'] . '">';
+	    /* $s3_done = get_post_meta(get_the_ID(), 's3_done', true);
+        if ($s3_done == 'done') {
+	        $src = 'https://s3.amazonaws.com/dtshops/onmytee/'.s3_file_name($cart_item['image_change']).'.jpg';// strtok($value['image'], '?');
+	    } else {
+	        $product_get_image = '<img alt="cart img2" src="' . $cart_item['image_change'] . '">';
+	    }
+        */
+        $product_get_image = '<img alt="cart img2" src="' . $cart_item['image_change'] . '">';
     }
     return $product_get_image;
 }
@@ -596,6 +633,73 @@ function update_custom_price($cart_object)
         $value['data']->set_price($value['price_change']);
     }
 }
+
+//custom search wordpress.
+function list_searcheable(){
+    $list_searcheable = array("title", "sub_title", "excerpt_short", "excerpt_long", "xyz", "product");
+    return $list_searcheable;
+}
+
+function advanced_custom_search( $where, &$wp_query ) {
+    global $wpdb;
+    if ( empty( $where ))
+        return $where;
+
+    // get search expression
+    $terms = $wp_query->query_vars[ 's' ];
+
+    // explode search expression to get search terms
+    $exploded = explode( ' ', $terms );
+    if( $exploded === FALSE || count( $exploded ) == 0 )
+        $exploded = array( 0 => $terms );
+
+    // reset search in order to rebuilt it as we whish
+    $where = '';
+
+    // get searcheable_acf, a list of advanced custom fields you want to search content in
+    $list_searcheable = list_searcheable();
+    foreach( $exploded as $tag ) :
+        $where .= " 
+          AND (
+            (wp_posts.post_title LIKE '%$tag%')
+            OR (wp_posts.post_content LIKE '%$tag%')
+            OR EXISTS (
+              SELECT * FROM wp_postmeta
+	              WHERE post_id = wp_posts.ID
+	                AND (";
+        foreach ($list_searcheable as $searcheable) :
+            if ($searcheable == $list_searcheable[0]):
+                $where .= " (meta_key LIKE '%" . $searcheable . "%' AND meta_value LIKE '%$tag%') ";
+            else :
+                $where .= " OR (meta_key LIKE '%" . $searcheable . "%' AND meta_value LIKE '%$tag%') ";
+            endif;
+        endforeach;
+        $where .= ")
+            )
+            OR EXISTS (
+              SELECT * FROM wp_comments
+              WHERE comment_post_ID = wp_posts.ID
+                AND comment_content LIKE '%$tag%'
+            )
+            OR EXISTS (
+              SELECT * FROM wp_terms
+              INNER JOIN wp_term_taxonomy
+                ON wp_term_taxonomy.term_id = wp_terms.term_id
+              INNER JOIN wp_term_relationships
+                ON wp_term_relationships.term_taxonomy_id = wp_term_taxonomy.term_taxonomy_id
+              WHERE (
+          		taxonomy = 'post_tag'
+            		OR taxonomy = 'category'          		
+            		OR taxonomy = 'myCustomTax'
+          		)
+              	AND object_id = wp_posts.ID
+              	AND wp_terms.name LIKE '%$tag%'
+            )
+        )";
+    endforeach;
+    return $where ;
+}
+add_filter( 'posts_search', 'advanced_custom_search', 500, 2 );
 
 
 ?>
